@@ -4,7 +4,7 @@ console.log('working');
 
 // ! Globals
 
-let voteCount = 5;
+let voteCount = 25;
 let duckArray = [];
 
 // ! Dom References
@@ -12,6 +12,9 @@ let imageContainer = document.getElementById('img-container');
 let imgOne = document.getElementById('img-one');
 let imgTwo = document.getElementById('img-two');
 let imgThree = document.getElementById('img-three');
+
+let resultsButton = document.getElementById('show-results-button');
+let resultsContainer = document.getElementById('results-container');
 
 // ! Helper/Utilty Functions
 
@@ -43,6 +46,18 @@ function renderImages() {
 }
 
 // ! Event Handlers
+
+function handleShowResults(event) {
+  // only display results after 25 rounds
+
+
+  // show the results of our voting round
+  for (let i = 0; i < duckArray.length; i++) {
+    let liElem = document.createElement('li');
+    liElem.textContent = `${duckArray[i].name} was viewed: ${duckArray[i].views} times and clicked: ${duckArray[i].clicks}`;
+    resultsContainer.appendChild(liElem);
+  }
+}
 
 function handleImageClick(event) {
   console.dir(event.target);
@@ -111,3 +126,4 @@ duckArray.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulh
 renderImages();
 
 imageContainer.addEventListener('click', handleImageClick);
+resultsButton.addEventListener('click', handleShowResults)
