@@ -1,0 +1,35 @@
+body {
+  background-color: blanchedalmond;
+}
+
+h1 {
+  font-size: 4rem;
+  text-align: center;
+  color: rgba(180, 58, 150, 0.76);
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+#img-container {
+  width: 90%;
+  margin:auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 25px;
+  
+}
+
+#show-results-button {
+  font-size: 2rem;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+li {
+  font-size: 1.5rem;
+}
+
+footer {
+  font-size: 1.5rem;
+  text-align: center;
+}
