@@ -4,6 +4,7 @@ console.log('working');
 
 // ! Globals
 
+let voteCount = 5;
 let duckArray = [];
 
 // ! Dom References
@@ -23,6 +24,7 @@ function renderImages() {
   let imgTwoRandom = randomDuck();
   let imgThreeRandom = randomDuck();
 
+  // TODO: find out how img 1,2,3 not equal to each other
   while (imgOneRandom === imgTwoRandom === imgThreeRandom) {
     imgTwoRandom = randomDuck();
   }
@@ -51,8 +53,21 @@ function handleImageClick(event) {
   
   for (let i = 0; i < duckArray.length; i++) {
     if (duckArray[i].name === duckClicked) {
+      // add vote counts
       duckArray[i].clicks++;
     }
+  }
+
+  // decrement vote count to only allow 25 total
+  voteCount--;
+
+  // TODO: render new images
+
+  renderImages();
+
+  // TODO: after 25 votes stop listening for clicks
+  if (voteCount === 0) {
+    imageContainer.removeEventListener('click', handleImageClick);
   }
 }
 
