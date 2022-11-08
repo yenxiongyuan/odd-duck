@@ -19,7 +19,7 @@ let resultsContainer = document.getElementById('results-container');
 // ! Helper/Utilty Functions
 
 function randomDuck() {
-  return Math.floor(Math.random() * duckArray.length)
+  return Math.floor(Math.random() * duckArray.length);
 }
 
 function renderImages() {
@@ -28,9 +28,11 @@ function renderImages() {
   let imgThreeRandom = randomDuck();
 
   // TODO: find out how img 1,2,3 not equal to each other
-  while (imgOneRandom === imgTwoRandom === imgThreeRandom) {
+  
+  while (imgOneRandom === imgTwoRandom) {
     imgTwoRandom = randomDuck();
   }
+
 
   imgOne.src = duckArray[imgOneRandom].imagePath;
   imgTwo.src = duckArray[imgTwoRandom].imagePath;
@@ -50,12 +52,15 @@ function renderImages() {
 function handleShowResults(event) {
   // only display results after 25 rounds
 
-
-  // show the results of our voting round
-  for (let i = 0; i < duckArray.length; i++) {
-    let liElem = document.createElement('li');
-    liElem.textContent = `${duckArray[i].name} was viewed: ${duckArray[i].views} times and clicked: ${duckArray[i].clicks}`;
-    resultsContainer.appendChild(liElem);
+  if (voteCount === 0) {
+    // show the results of our voting round
+    for (let i = 0; i < duckArray.length; i++) {
+      let liElem = document.createElement('li');
+      liElem.textContent = `${duckArray[i].name} was viewed: ${duckArray[i].views} times and have ${duckArray[i].clicks} votes.`;
+      resultsContainer.appendChild(liElem);
+    }
+    // remove event listener inside if statement to show results
+    resultsButton.removeEventListener('click', handleShowResults);
   }
 }
 
@@ -65,7 +70,7 @@ function handleImageClick(event) {
   let duckClicked = event.target.alt;
 
   console.log('image clicked >>>', duckClicked);
-  
+
   for (let i = 0; i < duckArray.length; i++) {
     if (duckArray[i].name === duckClicked) {
       // add vote counts
@@ -95,8 +100,6 @@ function Duck(name, fileExtension = '.jpg') {
   this.views = 0;
 }
 
-
-
 // ! Executable
 
 let bag = new Duck('bag');
@@ -119,11 +122,29 @@ let unicorn = new Duck('unicorn');
 let waterCan = new Duck('water-can');
 let wineGlass = new Duck('wine-glass');
 
-
-
-duckArray.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, waterCan, wineGlass);
+duckArray.push(
+  bag,
+  banana,
+  bathroom,
+  boots,
+  breakfast,
+  bubblegum,
+  chair,
+  cthulhu,
+  dogDuck,
+  dragon,
+  pen,
+  petSweep,
+  scissors,
+  shark,
+  sweep,
+  tauntaun,
+  unicorn,
+  waterCan,
+  wineGlass
+);
 
 renderImages();
 
 imageContainer.addEventListener('click', handleImageClick);
-resultsButton.addEventListener('click', handleShowResults)
+resultsButton.addEventListener('click', handleShowResults);
