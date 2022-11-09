@@ -2,12 +2,12 @@
 
 console.log('working');
 
-// ! Globals
+// # Globals
 
 let voteCount = 25;
 let duckArray = [];
 
-// ! Dom References
+// # Dom References
 let imageContainer = document.getElementById('img-container');
 let imgOne = document.getElementById('img-one');
 let imgTwo = document.getElementById('img-two');
@@ -16,23 +16,52 @@ let imgThree = document.getElementById('img-three');
 let resultsButton = document.getElementById('show-results-button');
 let resultsContainer = document.getElementById('results-container');
 
-// ! Helper/Utilty Functions
+// CANVAS DOM 
+let chartContext = document.getElementById('my-chart').getContext('2d');
+
+// CHART OBJECT
+let myChart = {
+  type: '',
+  data: {},
+  options: {},
+};
+
+
+// # Helper/Utilty Functions
 
 function randomDuck() {
   return Math.floor(Math.random() * duckArray.length);
 }
 
+// # Global
+let imageArray = [];
+
 function renderImages() {
-  let imgOneRandom = randomDuck();
-  let imgTwoRandom = randomDuck();
-  let imgThreeRandom = randomDuck();
+  // let imgOneRandom = randomDuck();
+  // let imgTwoRandom = randomDuck();
+  // let imgThreeRandom = randomDuck();
 
   // TODO: find out how img 1,2,3 not equal to each other
-  
-  while (imgOneRandom === imgTwoRandom) {
-    imgTwoRandom = randomDuck();
+
+  // while (imgOneRandom === imgTwoRandom) {
+  //   imgTwoRandom = randomDuck();
+  // }
+
+  while (imageArray.length < 6) {
+    let randomImage = randomDuck();
+    if (!imageArray.includes(randomImage)) {
+      imageArray.push(randomImage);
+      console.log(imageArray);
+      // console.log(imgOneRandom);
+    }
   }
 
+  let imgOneRandom = imageArray.shift();
+  let imgTwoRandom = imageArray.shift();
+  let imgThreeRandom = imageArray.shift();
+  // let imgFourRandom = imageArray.shift();
+  // let imgFiveRandom = imageArray.shift();
+  // let imgSixRandom = imageArray.shift();
 
   imgOne.src = duckArray[imgOneRandom].imagePath;
   imgTwo.src = duckArray[imgTwoRandom].imagePath;
@@ -45,9 +74,10 @@ function renderImages() {
   duckArray[imgOneRandom].views++;
   duckArray[imgTwoRandom].views++;
   duckArray[imgThreeRandom].views++;
+  console.log(imgOneRandom, imgTwoRandom)
 }
 
-// ! Event Handlers
+// # Event Handlers
 
 function handleShowResults(event) {
   // only display results after 25 rounds
@@ -81,17 +111,17 @@ function handleImageClick(event) {
   // decrement vote count to only allow 25 total
   voteCount--;
 
-  // TODO: render new images
+  //  render new images
 
   renderImages();
 
-  // TODO: after 25 votes stop listening for clicks
+  //  after 25 votes stop listening for clicks
   if (voteCount === 0) {
     imageContainer.removeEventListener('click', handleImageClick);
   }
 }
 
-// ! Odd Duct Constructor
+// # Odd Duct Constructor
 
 function Duck(name, fileExtension = '.jpg') {
   this.name = name;
@@ -100,7 +130,7 @@ function Duck(name, fileExtension = '.jpg') {
   this.views = 0;
 }
 
-// ! Executable
+// # Executable
 
 let bag = new Duck('bag');
 let banana = new Duck('banana');
