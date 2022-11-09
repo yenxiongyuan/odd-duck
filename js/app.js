@@ -16,16 +16,8 @@ let imgThree = document.getElementById('img-three');
 let resultsButton = document.getElementById('show-results-button');
 let resultsContainer = document.getElementById('results-container');
 
-// CANVAS DOM 
+// CANVAS DOM
 let chartContext = document.getElementById('my-chart').getContext('2d');
-
-// CHART OBJECT
-let myChart = {
-  type: '',
-  data: {},
-  options: {},
-};
-
 
 // # Helper/Utilty Functions
 
@@ -37,25 +29,16 @@ function randomDuck() {
 let imageArray = [];
 
 function renderImages() {
-  // let imgOneRandom = randomDuck();
-  // let imgTwoRandom = randomDuck();
-  // let imgThreeRandom = randomDuck();
-
-  // TODO: find out how img 1,2,3 not equal to each other
-
-  // while (imgOneRandom === imgTwoRandom) {
-  //   imgTwoRandom = randomDuck();
-  // }
 
   while (imageArray.length < 6) {
     let randomImage = randomDuck();
     if (!imageArray.includes(randomImage)) {
       imageArray.push(randomImage);
       console.log(imageArray);
-      // console.log(imgOneRandom);
     }
   }
 
+  // remove the 0 index of imageArray every loop
   let imgOneRandom = imageArray.shift();
   let imgTwoRandom = imageArray.shift();
   let imgThreeRandom = imageArray.shift();
@@ -74,7 +57,7 @@ function renderImages() {
   duckArray[imgOneRandom].views++;
   duckArray[imgTwoRandom].views++;
   duckArray[imgThreeRandom].views++;
-  console.log(imgOneRandom, imgTwoRandom)
+  // console.log(imgOneRandom, imgTwoRandom);
 }
 
 // # Event Handlers
@@ -84,11 +67,40 @@ function handleShowResults(event) {
 
   if (voteCount === 0) {
     // show the results of our voting round
+    // CHART OBJECT
+    let duckNames = [];
+    let duckViews = [];
+    let duckClicks = [];
+
+    for (let i = 0; i < duckArray.length; i++) {
+      duckNames.push(duckArray[i].name);
+      duckViews.push(duckArray[i].views);
+      duckClicks.push(duckArray[i].clicks);
+    }
+
+    let chartData = {
+      type: 'bar',
+      data: {
+        datasets: [
+          { label: '# of Views', data: duckViews, backgroundColor: 'orange' },
+          {
+            label: '# of Clicks',
+            data: duckClicks,
+            backgroundColor: 'blue',
+          },
+        ],
+        labels: duckNames,
+      },
+      options: {},
+    };
+
     for (let i = 0; i < duckArray.length; i++) {
       let liElem = document.createElement('li');
       liElem.textContent = `${duckArray[i].name} was viewed: ${duckArray[i].views} times and have ${duckArray[i].clicks} votes.`;
       resultsContainer.appendChild(liElem);
     }
+
+    let myChartGraph = new Chart(chartContext, chartData);
     // remove event listener inside if statement to show results
     resultsButton.removeEventListener('click', handleShowResults);
   }
