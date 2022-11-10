@@ -29,7 +29,6 @@ function randomDuck() {
 let imageArray = [];
 
 function renderImages() {
-
   while (imageArray.length < 6) {
     let randomImage = randomDuck();
     if (!imageArray.includes(randomImage)) {
@@ -111,7 +110,7 @@ function handleImageClick(event) {
 
   let duckClicked = event.target.alt;
 
-  console.log('image clicked >>>', duckClicked);
+  // console.log('image clicked >>>', duckClicked);
 
   for (let i = 0; i < duckArray.length; i++) {
     if (duckArray[i].name === duckClicked) {
@@ -130,6 +129,15 @@ function handleImageClick(event) {
   //  after 25 votes stop listening for clicks
   if (voteCount === 0) {
     imageContainer.removeEventListener('click', handleImageClick);
+
+    // LOCAL STORAGE START HERE
+    // Step 1: Stringify the Data
+    let stringifyfyDuck = JSON.stringify(duckArray);
+
+    // console.log('stringify duck ---> ' + stringifyfyDuck);
+
+    // Step 2: Add to local storage
+    localStorage.setItem('myDucks', stringifyfyDuck);
   }
 }
 
@@ -142,49 +150,69 @@ function Duck(name, fileExtension = '.jpg') {
   this.views = 0;
 }
 
+Duck.prototype.myMethod = function () {
+  return `This image is called ${this.name}`;
+};
+
 // # Executable
 
-let bag = new Duck('bag');
-let banana = new Duck('banana');
-let bathroom = new Duck('bathroom');
-let boots = new Duck('boots');
-let breakfast = new Duck('breakfast');
-let bubblegum = new Duck('bubblegum');
-let chair = new Duck('chair');
-let cthulhu = new Duck('cthulhu');
-let dogDuck = new Duck('dog-duck');
-let dragon = new Duck('dragon');
-let pen = new Duck('pen');
-let petSweep = new Duck('pet-sweep');
-let scissors = new Duck('scissors');
-let shark = new Duck('shark');
-let sweep = new Duck('sweep', '.png');
-let tauntaun = new Duck('tauntaun');
-let unicorn = new Duck('unicorn');
-let waterCan = new Duck('water-can');
-let wineGlass = new Duck('wine-glass');
+// More Local storage
+// Step 3: Pull Data out of local storage
+let retrievedDucks = localStorage.getItem('myDucks');
 
-duckArray.push(
-  bag,
-  banana,
-  bathroom,
-  boots,
-  breakfast,
-  bubblegum,
-  chair,
-  cthulhu,
-  dogDuck,
-  dragon,
-  pen,
-  petSweep,
-  scissors,
-  shark,
-  sweep,
-  tauntaun,
-  unicorn,
-  waterCan,
-  wineGlass
-);
+console.log('retrievedDucks --->' + retrievedDucks);
+
+// Step 4: Parse my data into code our App can use
+let parseDucks = JSON.parse(retrievedDucks);
+// console.log('parsedDucks---->' + parseDucks);
+
+if (parseDucks) {
+  duckArray = parseDucks;
+} else {
+  let bag = new Duck('bag');
+  let banana = new Duck('banana');
+  let bathroom = new Duck('bathroom');
+  let boots = new Duck('boots');
+  let breakfast = new Duck('breakfast');
+  let bubblegum = new Duck('bubblegum');
+  let chair = new Duck('chair');
+  let cthulhu = new Duck('cthulhu');
+  let dogDuck = new Duck('dog-duck');
+  let dragon = new Duck('dragon');
+  let pen = new Duck('pen');
+  let petSweep = new Duck('pet-sweep');
+  let scissors = new Duck('scissors');
+  let shark = new Duck('shark');
+  let sweep = new Duck('sweep', '.png');
+  let tauntaun = new Duck('tauntaun');
+  let unicorn = new Duck('unicorn');
+  let waterCan = new Duck('water-can');
+  let wineGlass = new Duck('wine-glass');
+
+  duckArray.push(
+    bag,
+    banana,
+    bathroom,
+    boots,
+    breakfast,
+    bubblegum,
+    chair,
+    cthulhu,
+    dogDuck,
+    dragon,
+    pen,
+    petSweep,
+    scissors,
+    shark,
+    sweep,
+    tauntaun,
+    unicorn,
+    waterCan,
+    wineGlass
+  );
+}
+
+// console.log('duckArray after construction ----->' + duckArray);
 
 renderImages();
 
