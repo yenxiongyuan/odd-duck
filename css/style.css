@@ -15,8 +15,14 @@ h1 {
   margin:auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 25px;
-  
+  grid-column-gap: 20px;
+}
+
+#img-one, #img-two, #img-three {
+  width: 230px;
+  height: 230px;
+  margin:auto;
+  padding: 20px;
 }
 
 #show-results-button {
@@ -32,9 +38,9 @@ li {
 
 #my-chart {
   margin-top: 30px;
-  height: 200px;
-  width: 180px;
-  font-size: 4rem;
+  height: 100px;
+  width: 100px;
+  font-size: 2rem;
 }
 
 footer {
